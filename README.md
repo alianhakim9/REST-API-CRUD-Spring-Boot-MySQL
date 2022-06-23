@@ -20,29 +20,29 @@ or
 Once the application runs you should see something like this
 
 ```
-2017-08-29 17:31:23.091  INFO 19387 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8000 (http)
-2017-08-29 17:31:23.097  INFO 19387 --- [           main] com.khoubyari.example.Application        : Started KotlinRestfulApiApplicationKt in 5.593 seconds (JVM running for 6.209)
+2022-06-23 08:50:27.143  INFO 5216 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8000 (http) with context path ''
+2022-06-23 08:50:27.158  INFO 5216 --- [  restartedMain] i.r.k.KotlinRestfulApiApplicationKt      : Started KotlinRestfulApiApplicationKt in 6.824 seconds (JVM running for 7.951)
+
 ```
 
 ## About the Service
 
-The service is just a simple hotel review REST service. It uses an in-memory database (H2) to store the data. You can also do with a relational database like MySQL or PostgreSQL. If your database connection properties work, you can call some REST endpoints defined in ```com.khoubyari.example.api.rest.hotelController``` on **port 8000**. (see below)
+The service is just a simple hotel review REST service. It uses an in-memory database (H2) to store the data. You can also do with a relational database like MySQL or PostgreSQL. If your database connection properties work, you can call some REST endpoints defined in ```id.ris.kotlinresfulapi.controller``` on **port 8000**. (see below)
 
-More interestingly, you can start calling some of the operational endpoints (see full list below) like ```/metrics``` and ```/health``` (these are available on **port 8000**)
+More interestingly, you can start calling some of the operational endpoints (see full list below) like ```/products```(these are available on **port 8000**)
 
 You can use this sample service to understand the conventions and configurations that allow you to create a DB-backed RESTful service. Once you understand and get comfortable with the sample app you can add your own services following the same patterns as the sample service.
  
 Here is what this little application demonstrates: 
 
 * Full integration with the latest **Spring** Framework: inversion of control, dependency injection, etc.
-* Packaging as a single war with embedded container (tomcat 8): No need to install a container separately on the host just run using the ``java -jar`` command
-* Demonstrates how to set up healthcheck, metrics, info, environment, etc. endpoints automatically on a configured port. Inject your own health / metrics info with a few lines of code.
+* Packaging as a single war with embedded container (tomcat 9): No need to install a container separately on the host just run using the ``java -jar`` command
+* Demonstrates how to set up products. endpoints automatically on a configured port. Inject your own product info with a few lines of code.
 * Writing a RESTful service using annotation: supports both XML and JSON request / response; simply use desired ``Accept`` header in your request
 * Exception mapping from application exceptions to the right HTTP response with exception details in the body
 * *Spring Data* Integration with JPA/Hibernate with just a few lines of configuration and familiar annotations. 
 * Automatic CRUD functionality against the data source using Spring *Repository* pattern
 * Demonstrates MockMVC test framework with associated libraries
-* All APIs are "self-documented" by Swagger2 using annotations 
 
 Here are some endpoints you can call:
 
@@ -55,7 +55,7 @@ http://localhost:8000/products
 ### Create a hotel resource
 
 ```
-POST /api/v1/products
+POST http://localhost:8000/api/v1/products
 Accept: application/json
 Content-Type: application/json
 
@@ -126,7 +126,7 @@ Content: paginated list
 ### Update a product resource
 
 ```
-PUT /api/v1/product/1
+PUT http://localhost:8000/api/v1/product/1
 Accept: application/json
 Content-Type: application/json
 
@@ -144,25 +144,11 @@ RESPONSE: HTTP 204 (No Content)
 
 Spring Boot is an "opinionated" application bootstrapping framework that makes it easy to create new RESTful services (among other types of applications). It provides many of the usual Spring facilities that can be configured easily usually without any XML. In addition to easy set up of Spring Controllers, Spring Data, etc. Spring Boot comes with the Actuator module that gives the application the following endpoints helpful in monitoring and operating the service:
 
-**/metrics** Shows “metrics” information for the current application.
+**/products** Shows “products” information for the current application.
 
-**/health** Shows application health information.
+### To view your H2 in-memory database
 
-**/info** Displays arbitrary application info.
-
-**/configprops** Displays a collated list of all @ConfigurationProperties.
-
-**/mappings** Displays a collated list of all @RequestMapping paths.
-
-**/beans** Displays a complete list of all the Spring Beans in your application.
-
-**/env** Exposes properties from Spring’s ConfigurableEnvironment.
-
-**/trace** Displays trace information (by default the last few HTTP requests).
-
-### To view your H2 in-memory datbase
-
-The 'test' profile runs on H2 in-memory database. To view and query the database you can browse to http://localhost:8090/h2-console. Default username is 'sa' with a blank password. Make sure you disable this in your production profiles. For more, see https://goo.gl/U8m62X
+The 'test' profile runs on H2 in-memory database. To view and query the database you can browse to http://localhost:8000/h2-console. Default username is 'sa' with a blank password. Make sure you disable this in your production profiles. For more, see https://goo.gl/U8m62X
 
 # Running the project with MySQL
 
